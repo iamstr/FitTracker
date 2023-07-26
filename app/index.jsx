@@ -13,7 +13,7 @@ export default function Page() {
         </Text>
         <Text style={styles.sub}>+</Text>
       </View>
-      <Link href="/home" asChild>
+      <Link href="/onboard" asChild>
         <Pressable style={styles.button}>
           <Text style={styles.buttonText}>Get Started</Text>
         </Pressable>
