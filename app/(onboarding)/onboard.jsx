@@ -3,12 +3,13 @@ import {
   Dimensions, Image, StyleSheet, Text, View,
 } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
+import { Button } from 'react-native-ui-lib';
 
 const IMG1 = require('../../assets/app/onboarding-1.png');
 const IMG2 = require('../../assets/app/onboarding-2.png');
 const IMG3 = require('../../assets/app/onboarding-3.png');
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 const slides = [
   {
     key: 'one',
@@ -51,11 +52,15 @@ function OnBoarding() {
   );
 
   return (
-    <AppIntroSlider
-      renderItem={renderItem}
-      data={slides}
-      onDone={onDone}
-    />
+    <>
+
+      <AppIntroSlider
+        renderItem={renderItem}
+        data={slides}
+        onDone={onDone}
+      />
+      {showRealApp && <Button />}
+    </>
   );
 }
 
@@ -67,7 +72,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width, // Adjust the width to fit the screen
-    height: 475, // Fixed height for images
+    height: height - 280, // Fixed height for images
     resizeMode: 'cover', // or 'contain' based on your preference
   },
   slideContent: {
