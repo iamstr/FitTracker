@@ -1,17 +1,45 @@
 import { Link } from 'expo-router';
+import LottieView from 'lottie-react-native';
+import { useEffect, useRef } from 'react';
 import {
+  Dimensions,
   Pressable, StyleSheet, Text, View,
 } from 'react-native';
 
+const { width } = Dimensions.get('window');
 export default function Page() {
+  const animation = useRef(null);
+  useEffect(() => {
+    console.log(animation);
+    animation.current?.play();
+  }, []);
   return (
     <View style={styles.container}>
-      <View style={{ flex: 1, flexDirection: 'row', marginTop: 180 }}>
 
-        <Text style={styles.subtitle}>
+      <View style={{
+        flex: 1,
+        // flexDirection: 'row',
+        // marginTop: 100,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+      >
+        <LottieView
+          loop
+          autoPlay
+          ref={animation}
+          resizeMode="center"
+          onLayout={() => { animation.current?.play(); }}
+          style={{
+            flex: 1, justifyContent: 'center', position: 'relative',
+          }}
+        // Find more Lottie files at https://lottiefiles.com/featured
+          source={require('../assets/lottie/animation_lkk721ni.json')}
+        />
+        {/* <Text style={styles.subtitle}>
           FitTracker
         </Text>
-        <Text style={styles.sub}>+</Text>
+        <Text style={styles.sub}>+</Text> */}
       </View>
       <Link href="/onboard" asChild>
         <Pressable style={styles.button}>
