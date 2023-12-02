@@ -5,6 +5,7 @@ import {
   Dimensions,
   Pressable, StyleSheet, Text, View,
 } from 'react-native';
+import UserContextProvider from '../contexts/userContext';
 
 const { width } = Dimensions.get('window');
 export default function Page() {
@@ -14,39 +15,42 @@ export default function Page() {
     animation.current?.play();
   }, []);
   return (
-    <View style={styles.container}>
+    <UserContextProvider>
 
-      <View style={{
-        flex: 1,
-        // flexDirection: 'row',
-        // marginTop: 100,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-      >
-        <LottieView
-          loop
-          autoPlay
-          ref={animation}
-          resizeMode="center"
-          onLayout={() => { animation.current?.play(); }}
-          style={{
-            flex: 1, justifyContent: 'center', position: 'relative',
-          }}
+      <View style={styles.container}>
+
+        <View style={{
+          flex: 1,
+          // flexDirection: 'row',
+          // marginTop: 100,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        >
+          <LottieView
+            loop
+            autoPlay
+            ref={animation}
+            resizeMode="center"
+            onLayout={() => { animation.current?.play(); }}
+            style={{
+              flex: 1, justifyContent: 'center', position: 'relative',
+            }}
         // Find more Lottie files at https://lottiefiles.com/featured
-          source={require('../assets/lottie/animation_lkk721ni.json')}
-        />
-        {/* <Text style={styles.subtitle}>
+            source={require('../assets/lottie/animation_lkk721ni.json')}
+          />
+          {/* <Text style={styles.subtitle}>
           FitTracker
         </Text>
         <Text style={styles.sub}>+</Text> */}
+        </View>
+        <Link href="/onboard" asChild>
+          <Pressable style={styles.button}>
+            <Text style={styles.buttonText}>Get Started</Text>
+          </Pressable>
+        </Link>
       </View>
-      <Link href="/onboard" asChild>
-        <Pressable style={styles.button}>
-          <Text style={styles.buttonText}>Get Started</Text>
-        </Pressable>
-      </Link>
-    </View>
+    </UserContextProvider>
   );
 }
 
