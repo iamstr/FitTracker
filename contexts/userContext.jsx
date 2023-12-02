@@ -1,20 +1,22 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as SecureStore from 'expo-secure-store';
 import { createContext, useEffect, useState } from 'react';
 
-const UserContext = createContext({});
-function UserContextProvider({ children }) {
-  const { token, setToken, deleteToken } = useToken();
-  const { credential, setCredential, getCredential } = useCredential();
-  const [user, setUser] = useState(token);
+export const UserContext = createContext({
+  user: {},
+  saveUser: (user) => {},
+});
+export default function UserContextProvider({ children }) {
+  const [user, setUser] = useState({
+    fullname: '',
+    email: '',
+    weight: '',
+    heigth: '',
+    activity: '',
+    gender: '',
+    age: '',
+    goal: '',
+  });
   useEffect(() => {
-    async function setSecureStorage() {
-      const storedUser = await SecureStore.getItemAsync('user');
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      }
-    }
-
     const getData = async () => {
       try {
         const storedUser = await AsyncStorage.getItem('user');
@@ -26,21 +28,10 @@ function UserContextProvider({ children }) {
         // error reading value
       }
     };
-    setSecureStorage();
     getData();
   }, []);
 
-  useEffect(() => {
-    async function setSecureStorage() {
-      if (user) {
-        await SecureStore.setItemAsync('user', JSON.stringify(user));
-      } else {
-        await SecureStore.removeItemAsync('user');
-      }
-    }
-    setSecureStorage();
-  }, [user]);
-  return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
-}
+  const saveUser = (_user) => setUser(_user);
 
-export { UserContext, UserContextProvider };
+  return <UserContext.Provider value={{ user, saveUser }}>{children}</UserContext.Provider>;
+}
