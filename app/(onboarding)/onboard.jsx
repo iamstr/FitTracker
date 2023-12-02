@@ -1,9 +1,11 @@
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
-  Dimensions, Image, StyleSheet, Text, View,
+  Alert,
+  Dimensions, Image, Pressable, StyleSheet, Text, View,
 } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import { Button } from 'react-native-ui-lib';
 
 const IMG1 = require('../../assets/app/onboarding-1.png');
 const IMG2 = require('../../assets/app/onboarding-2.png');
@@ -37,7 +39,8 @@ function OnBoarding() {
   const onDone = () => {
     // User finished the introduction. Show the real app through
     // navigation or simply by controlling state
-    setShowRealApp(true);
+    setShowRealApp(() => true);
+    router.replace('/signup');
   };
 
   const renderItem = ({ item }) => (
@@ -50,6 +53,33 @@ function OnBoarding() {
       </View>
     </View>
   );
+  const renderNextButton = () => (
+    <View style={styles.buttonCircle}>
+      <Ionicons
+        name="chevron-forward"
+        color="#FFF"
+        size={24}
+      />
+    </View>
+  );
+  const renderDoneButton = () => (
+    <View style={styles.buttonCircle}>
+      <Ionicons
+        name="md-checkmark"
+        color="#FFF"
+        size={24}
+      />
+    </View>
+  );
+  const renderBackButton = () => (
+    <View style={styles.buttonCircle}>
+      <Ionicons
+        name="chevron-back"
+        color="#FFF"
+        size={24}
+      />
+    </View>
+  );
 
   return (
     <>
@@ -58,8 +88,16 @@ function OnBoarding() {
         renderItem={renderItem}
         data={slides}
         onDone={onDone}
+        renderDoneButton={renderDoneButton}
+        renderNextButton={renderNextButton}
+        renderPrevButton={renderBackButton}
+        showPrevButton
       />
-      {showRealApp && <Button />}
+      {showRealApp && (
+      <Pressable>
+        <Text>Press me</Text>
+      </Pressable>
+      )}
     </>
   );
 }
@@ -93,6 +131,14 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins_400Regular',
     lineHeight: 24,
     paddingTop: 20,
+  },
+  buttonCircle: {
+    width: 40,
+    height: 40,
+    backgroundColor: '#FF0006',
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
