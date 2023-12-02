@@ -1,60 +1,77 @@
-/* eslint-disable import/no-extraneous-dependencies */
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { TextField } from 'react-native-ui-lib';
-import { isValidEmail } from '../../service';
+import {
+  SafeAreaView,
+  StyleSheet, Text, TextInput, View,
+} from 'react-native';
+import { Button, Checkbox, Colors } from 'react-native-ui-lib';
 
 function Signup() {
   const [userData, setUserData] = useState(
     {
       email: '',
-      password: '',
       fullname: '',
     },
   );
+  const [isSelected, setSelection] = useState(false);
   const onChangeText = (val, label) => {
-    console.log(val, label);
+    setUserData({ ...userData, [label]: val });
+    console.log({ ...userData, [label]: val });
+  };
+  const onSave = (val, label) => {
+    router.push('complete-signup');
   };
 
   return (
-    <View>
-      <Text>Hey There</Text>
-      <Text>Create an Account</Text>
-      <TextField
-        placeholder="Placeholder"
-        floatingPlaceholder
-        onChangeText={(e) => onChangeText(e, 'fullname')}
-        enableErrors
-        validate={['required', (value) => value.length > 5]}
-        validationMessage={['Field is required', 'Name is too short']}
-        showCharCounter
-        maxLength={50}
-        value={userData.fullname}
-      />
-      <TextField
-        placeholder="Placeholder"
-        floatingPlaceholder
-        onChangeText={(e) => onChangeText(e, 'email')}
-        enableErrors
-        validate={['required', 'email', (value) => isValidEmail(value)]}
-        validationMessage={['Field is required', 'Email is invalid', 'Password is too short']}
-        showCharCounter
-        maxLength={30}
-        value={userData.email}
-      />
-      <TextField
-        placeholder="Placeholder"
-        floatingPlaceholder
-        onChangeText={(e) => onChangeText(e, 'password')}
-        enableErrors
-        validate={['required', (value) => value.length > 6]}
-        validationMessage={['Field is required', 'Password is too short']}
-        showCharCounter
-        maxLength={30}
-        value={userData.password}
-      />
+    <SafeAreaView style={{
+      flex: 1, flexDirection: 'column', width: '100%', paddingHorizontal: 100,
+    }}
+    >
 
-    </View>
+      <View className=" px-3 mt-10">
+        <View className="flex justify-center items-center pb-5">
+
+          <Text>Hey There</Text>
+          <Text className="font-bold text-xl">Create an Account</Text>
+        </View>
+        <View className="border-slate-200 flex bg-[#F8f8f8] flex-row py-4  rounded-lg px-2 mb-5">
+          <Ionicons
+            name="person-outline"
+            color="#ccc"
+            className="text-slate-200"
+            size={24}
+
+          />
+          <TextInput value={userData.fullname} onChangeText={(e) => onChangeText(e, 'fullname')} placeholder="Fullname" className="pl-4" />
+
+        </View>
+        <View className="border-slate-200 flex bg-[#F8f8f8] flex-row py-4  rounded-lg px-2 mb-5">
+          <Ionicons
+            name="mail-outline"
+            color="#ccc"
+            className="text-slate-200"
+            size={24}
+          />
+          <TextInput value={userData.email} onChangeText={(e) => onChangeText(e, 'email')} className="pl-4" placeholder="Email" />
+        </View>
+        <View className="border-slate-200  bg-[#F8f8f8] py-4  rounded-lg px-2 mb-5" style={{ display: 'none' }}>
+          <Ionicons
+            name="lock-closed-outline"
+            color="#ccc"
+            className="text-slate-200"
+            size={24}
+          />
+          <TextInput value={userData.password} onChangeText={(e) => onChangeText(e, 'password')} className="pl-4" placeholder="Password" />
+        </View>
+        <View>
+          <Checkbox className=" text-sm align-middle" value={isSelected} onValueChange={() => setSelection(!isSelected)} label="By continuing you accept our Privacy Policy and Term of Use" color={Colors.red30} />
+        </View>
+        <Button label="Press" className=" mt-20 " backgroundColor={Colors.red30} onPress={onSave} />
+
+      </View>
+    </SafeAreaView>
+
   );
 }
 
