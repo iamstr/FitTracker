@@ -1,7 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as SecureStore from 'expo-secure-store';
 import { createContext, useEffect, useState } from 'react';
-import useCredential from '../hooks/useCredentials';
-import useToken from '../hooks/useToken';
 
 const UserContext = createContext({});
 function UserContextProvider({ children }) {
@@ -15,7 +14,20 @@ function UserContextProvider({ children }) {
         setUser(JSON.parse(storedUser));
       }
     }
+
+    const getData = async () => {
+      try {
+        const storedUser = await AsyncStorage.getItem('user');
+        if (storedUser !== null) {
+          // value previously stored
+          setUser(JSON.parse(storedUser));
+        }
+      } catch (e) {
+        // error reading value
+      }
+    };
     setSecureStorage();
+    getData();
   }, []);
 
   useEffect(() => {
