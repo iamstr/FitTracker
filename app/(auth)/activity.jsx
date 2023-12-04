@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Dimensions,
   ScrollView,
@@ -14,6 +14,7 @@ import {
   RadioButton,
   RadioGroup,
 } from 'react-native-ui-lib';
+import { UserContext } from '../../contexts/userContext';
 
 const options = [
   { label: 'JavaScript', value: 'js' },
@@ -47,6 +48,7 @@ function Activity() {
       fullname: '',
     },
   );
+  const { user } = useContext(UserContext);
   const [isSelected, setSelection] = useState(false);
   const [option, setOption] = useState(null);
   const onChangeText = (val, label) => {
@@ -103,7 +105,7 @@ function Activity() {
             <RadioButton value="athlete" label="Athlete Exercise(2X a day)" iconOnLeft containerStyle={{ ...styles.contentOnLeft, width: Dimensions.get('window').width * 0.9 }} />
           </RadioGroup>
 
-          <Button className="rounded-lg mt-20 w-[100%]" backgroundColor={Colors.red30}>
+          <Button className="rounded-lg mt-20 w-[100%]" backgroundColor={Colors.red30} onPress={() => { router.push('tdee'); }}>
             <Text className="text-white">Next</Text>
             <Ionicons
               name="chevron-forward-outline"
