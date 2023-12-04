@@ -2,9 +2,20 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useEffect, useState } from 'react';
 
 export const UserContext = createContext({
-  user: {},
-  saveUser: (user) => {},
+
+  user: {
+    fullname: '',
+    email: '',
+    weight: '',
+    heigth: '',
+    activity: '',
+    gender: '',
+    age: '',
+    goal: '',
+  },
+  saveUser: (user) => { },
 });
+
 export default function UserContextProvider({ children }) {
   const [user, setUser] = useState({
     fullname: '',
@@ -31,7 +42,11 @@ export default function UserContextProvider({ children }) {
     getData();
   }, []);
 
-  const saveUser = (_user) => setUser(_user);
-
+  const saveUser = (_user) => {
+    setUser((prevUser) => ({
+      ...prevUser,
+      ..._user,
+    }));
+  };
   return <UserContext.Provider value={{ user, saveUser }}>{children}</UserContext.Provider>;
 }
