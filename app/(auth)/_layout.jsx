@@ -34,6 +34,7 @@ function Auth() {
             },
           }}
         />
+        <Stack.Screen name="tdee" />
       </Stack>
     </UserContextProvider>
   );
