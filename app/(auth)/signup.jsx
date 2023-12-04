@@ -1,26 +1,28 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   SafeAreaView,
-  StyleSheet, Text, TextInput, View,
+  Text, TextInput, View,
 } from 'react-native';
 import { Button, Checkbox, Colors } from 'react-native-ui-lib';
+import { UserContext } from '../../contexts/userContext';
 
 function Signup() {
-  const [userData, setUserData] = useState(
-    {
-      email: '',
-      fullname: '',
-    },
+  const { user, saveUser } = useContext(UserContext);
+  const [userData, saveUserData] = useState(
+    user,
   );
   const [isSelected, setSelection] = useState(false);
   const onChangeText = (val, label) => {
-    setUserData({ ...userData, [label]: val });
-    console.log({ ...userData, [label]: val });
+    saveUser({ ...user, [label]: val });
+
+    // console.log({ ...user, [label]: val });
   };
   const onSave = (val, label) => {
+    // saveUser(userData);
     router.push('complete-signup');
+    console.log(user);
   };
 
   return (
@@ -43,7 +45,7 @@ function Signup() {
             size={24}
 
           />
-          <TextInput value={userData.fullname} onChangeText={(e) => onChangeText(e, 'fullname')} placeholder="Fullname" className="pl-4" />
+          <TextInput value={user.fullname} onChangeText={(e) => onChangeText(e, 'fullname')} placeholder="Fullname" className="pl-4" />
 
         </View>
         <View className="border-slate-200 flex bg-[#F8f8f8] flex-row py-4  rounded-lg px-2 mb-5">
@@ -53,7 +55,7 @@ function Signup() {
             className="text-slate-200"
             size={24}
           />
-          <TextInput value={userData.email} onChangeText={(e) => onChangeText(e, 'email')} className="pl-4" placeholder="Email" />
+          <TextInput value={user.email} onChangeText={(e) => onChangeText(e, 'email')} className="pl-4" placeholder="Email" />
         </View>
         <View className="border-slate-200  bg-[#F8f8f8] py-4  rounded-lg px-2 mb-5" style={{ display: 'none' }}>
           <Ionicons
@@ -76,5 +78,3 @@ function Signup() {
 }
 
 export default Signup;
-
-const styles = StyleSheet.create({});
