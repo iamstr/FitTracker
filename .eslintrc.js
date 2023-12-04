@@ -29,5 +29,7 @@ module.exports = {
     'import/no-extraneous-dependencies': 0,
     'react/prop-types': 0,
     'react/jsx-no-constructed-context-values': 0,
+    'import/prefer-default-export': 0,
+    'react-native/no-unused-styles': 'error',
   },
 };
